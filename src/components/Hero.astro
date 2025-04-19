@@ -1,0 +1,113 @@
+---
+import { Icon } from 'astro-icon/components';
+import Panel from './panel.astro';
+---
+
+<div class="wrapper">
+  <section class="hero">
+    <h1>
+      Hello I'm Hayoun
+    </h1>
+    <p>I like to bring ideas into web.</p>
+    <div class="bottom">
+      <div>
+        <ul class="tech-stack">
+          <li id="html"><Icon name="mdi:language-html5" /></li>
+          <li id="css"><Icon name="mdi:language-css3" /></li>
+          <li id="js"><Icon name="mdi:language-javascript" /></li>
+          <li id="react"><Icon name="mdi:react" /></li>
+          <li id="astro"><Icon name="lineicons:astro" /></li>
+          <li id="tw"><Icon name="mdi:tailwind" /></li>
+        </ul>
+      </div>
+      <div>
+        <Icon name="mdi:map-marker-radius-outline" />
+        <span>Los Angeles</span>
+      </div>
+    </div>
+  </section>
+  <Panel />
+</div>
+
+<style>
+  .wrapper {
+    padding-block: 80px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .hero {
+    /* height: 400px; */
+    margin-top: 90px;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  p {
+    font-size: 2rem;
+  }
+
+  .bottom {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    
+    position: absolute;
+    bottom: 0;
+  }
+
+  .tech-stack {
+    display: flex;
+    gap: 10px;
+  }
+
+  .tech-stack li {
+    position: relative;
+  }
+
+  .tech-stack li::after {
+    opacity: 0;
+    transition: all ease-in-out 0.2s;
+  }
+
+  .tech-stack li:hover::after {
+    content: "";
+    padding: 2px;
+    background-color: rgb(33, 33, 33);
+    opacity: 1;
+    border: 2px solid white;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    position: absolute;
+    left: 100%;
+    bottom: 50%;
+    z-index: 1;
+  }
+
+  #html:hover::after {
+    content: "HTML";
+  }
+
+  #css:hover::after {
+    content: "CSS";
+  }
+
+  #js:hover::after {
+    content: "JavaScript";
+  }
+
+  #react:hover::after {
+    content: "React";
+  }
+
+  #astro:hover::after {
+    content: "Astrojs";
+  }
+
+  #tw:hover::after {
+    content: "TailwindCSS";
+  }
+</style>

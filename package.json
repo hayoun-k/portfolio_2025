@@ -9,6 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.4.2"
+    "@fontsource/audiowide": "^5.2.5",
+    "@fontsource/manrope": "^5.2.5",
+    "@fontsource/orbitron": "^5.2.5",
+    "@fontsource/titillium-web": "^5.2.5",
+    "@iconify-json/mdi": "^1.2.3",
+    "astro": "^5.4.2",
+    "astro-icon": "^1.1.5",
+    "gsap": "^3.12.7"
+  },
+  "devDependencies": {
+    "@iconify-json/lineicons": "^1.2.4"
   }
 }

@@ -1,0 +1,386 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import { Image } from 'astro:assets';
+const workImages = import.meta.glob("../assets/image/works/*.png", { eager: true, import: "default" });
+const workImageList = Object.values(workImages);
+
+const getImage = "../src/assets/image/works/";
+
+
+const projects = [
+    {
+      projectImage: `${getImage}Network-Configure.png`, 
+      projectTitle: "Network Setup Page", 
+      projectDescription: "This sleek and minimal HTML project is all about helping users set up their network connections—just like configuring a router! Whether it’s client-based or server-based, users can easily manage their network details like IP addresses, servers, and gateways without any fuss. It’s a no-frills, user-friendly interface that keeps things simple!"
+    },
+    {
+      projectImage: `${getImage}landing-page_2.png`, 
+      projectTitle: "Landing Page Development", 
+      projectDescription: "When it comes to developing landing pages, I’m all about building high-performing, lightning-fast pages that get results. I take your vision and turn it into a seamless, responsive experience using clean, efficient code. From integrating dynamic content to optimizing load times, I make sure every detail works perfectly across all devices. Ready for a landing page that not only looks great but works like a charm? Let’s make it happen!"
+    },
+    // {
+    //   projectImage: `${getImage}landing_page_webcosmos_desktop.png`, 
+    //   projectTitle: "Landing Page Development", 
+    //   projectDescription: "When it comes to developing landing pages, I’m all about building high-performing, lightning-fast pages that get results. I take your vision and turn it into a seamless, responsive experience using clean, efficient code. From integrating dynamic content to optimizing load times, I make sure every detail works perfectly across all devices. Ready for a landing page that not only looks great but works like a charm? Let’s make it happen!"
+    // },
+    {
+      projectImage: `${getImage}js-simulation-chart.png`, 
+      projectTitle: "Maplestory Simulator", 
+      projectDescription: "This is a custom-built web simulator designed for the Oreo Guild players on MapleStory's GMS Heroic servers (Kronos, Hyperion). It allows users to simulate Starforce enhancements by inputting equipment level, starting star, goal star, and various event settings like Starcatch, Shining StarForce events, Safeguard options, and MVP discounts. The simulator calculates meso consumption, enhancement attempts, item destruction chances, and provides detailed simulation logs, results, and statistical insights. It also features a cost table and success rate table for Starforcing based on user settings, complete with visualized simulation data using Plotly.js."
+    },
+
+    {
+      projectImage: `${getImage}email-signature.png`, 
+      projectTitle: "Responsive Email Signature", 
+      projectDescription: "Responsive, cross-platform email signature development"
+    },
+    {
+      projectImage: `${getImage}photo-search-app.jpg`, 
+      projectTitle: "ScoutPicFinder", 
+      projectDescription: "This is a clean, responsive image search app built with Next.js. It allows users to search for photos using the Unsplash API and view results instantly. Users can open original images or download them in small, medium, or large sizes. The project features custom components like SearchBar, ImageList, and ImageShow, clean API handling with Axios, simple navigation with a logo and About page link, and custom fonts for a polished look. It’s fully responsive and credits Unsplash photographers in the footer."
+    },
+    {
+      projectImage: `${getImage}oreobot.png`,
+      projectTitle: "Discord Bot Development",
+      projectDescription: "A lightweight Discord bot built with JavaScript and Cloudflare Workers. It responds to slash commands like <code>/oreo</code> to send a random post from r/Oreos, and /ursus to display time windows adjusted to the user’s local time. The bot runs serverlessly, securely handles Discord interactions, and includes a custom script for registering commands globally."
+
+    },
+    // {
+    //   projectImage: `${getImage}PH_coming_soon.png`,
+    //   projectTitle: "Landing Page Design",
+    //   projectDescription: "Lorem Ipsum",
+    // },
+  ];
+
+  const { class: className, } = Astro.props;
+// const {projectImage, projectTitle, projectDescription } = Astro.props;
+---
+
+<div class={className}>
+  {projects.map((project, index) => (
+    <div class="bento-item" key={project.projectTitle || index}>
+      <div class="project-wrapper">
+  
+        <div class="content" style={{backgroundImage: `url(${project.projectImage})`}}>
+  
+        </div>
+        <dialog class="project-popup dialog">
+          <div class="popup-wrapper">
+            <Icon name="mdi:close" class="closebutton"/>
+            <div class="popup-img-container"><img src={project.projectImage} alt={project.projectTitle} class="popup-img"></img></div>
+            <div class="popup-text">
+              <h3 class="popup-title">{project.projectTitle}</h3>
+              <p class="popup-description">
+                {project.projectTitle === "Discord Bot Development" ? (
+                  <>
+                    A lightweight Discord bot built with JavaScript and Cloudflare Workers.
+                    It responds to slash commands like <code>/oreo</code> to send a random post from r/Oreos,
+                    and <code>/ursus</code> to display time windows adjusted to the user’s local time.
+                    The bot runs serverlessly, securely handles Discord interactions, and includes a custom script for registering commands globally.
+                  </>
+                ) : (
+                  project.projectDescription
+                )}
+              </p>
+            </div>
+          </div>
+        </dialog>
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  const open = document.querySelectorAll(".content");
+  const dialog = document.querySelectorAll(".dialog");
+  const closeButton = document.querySelectorAll(".closebutton");
+  // console.log(dialog);
+  // console.log(closeButton);
+  console.log(open);
+
+//   function openCheck(dialog) {
+//   if (dialog.open) {
+//     console.log("Dialog open");
+//   } else {
+//     console.log("Dialog closed");
+//   }
+// }
+
+    open.forEach((content, index) => content.addEventListener("click", () => {
+      dialog[index].showModal();
+      // dialog.showModal();
+      // openCheck(dialog);
+    }))
+
+    closeButton.forEach((button, index) => button.addEventListener("click", () => {
+      dialog[index].close();
+    }))
+
+    // closeButton.addEventListener("click", () => {
+    //   dialog.close();
+    //   openCheck(dialog);
+    // })
+
+</script>
+<style>
+  .content {
+    width: 100%;
+    height: 100%;
+  }
+
+  .bento-container {
+  max-width: 1200px;
+  /* height: 900px; */
+  margin-top: 2rem;
+  margin-inline: auto;
+  padding: 32px;
+  display: grid;
+  /* grid-template-columns:
+    28fr
+    11.3fr
+    7fr
+    18.3fr
+    28.5fr;
+  grid-template-rows: 
+    31.3fr
+    14.6fr
+    19.9fr
+    31.3fr; */
+  grid-template-areas: 
+    "a b b "
+    "a c d "
+    "e e f ";
+  gap: 24px;
+  /* overflow: hidden; */
+  background-color: var(--clr-lightpurple);
+  border: var(--border-sm);
+  position: relative;
+}
+
+.bento-container:has(.bento-item:hover) .bento-item:not(:hover) {
+    opacity: 0.7;
+  }
+
+.project-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* .project-wrapper::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  background-color: rgba(55, 55, 55, 0.2);
+}
+
+.project-wrapper::after:hover {
+  background-color: none;
+} */
+
+.bento-item {
+  height: 100%;
+  padding: 40px;
+  /* overflow: hidden; */
+  border-radius: 15px;
+  /* filter: grayscale(0.25); */
+  transition: all ease-in-out 0.2s;
+  position: relative;
+}
+
+.bento-item:nth-of-type(1) {
+  grid-area: a;
+  background-color: #ffe552;
+  .content {
+    background-size: cover;
+  }
+}
+
+.bento-item:nth-of-type(2) {
+  grid-area: b;
+  background-color: #b4ffda;
+  .content {
+    background-size: cover;
+    background-position-x: 50%;
+  }
+}
+.bento-item:nth-of-type(3) {
+  grid-area: c;
+  background-color: #b4ffda;
+  .content {
+    background-size: cover;
+  }
+}
+.bento-item:nth-of-type(4) {
+  grid-area: d;
+  background-color: #5078f3;
+  .content {
+    background-size: cover;
+  }
+}
+.bento-item:nth-of-type(5) {
+  grid-area: e;
+  background-color: #ffe552;
+  .content {
+    background-size: cover;
+    background-position-x: 50%;
+  }
+}
+.bento-item:nth-of-type(6) {
+  grid-area: f;
+  background-color: #b398ff;
+  .content {
+    background-size: cover;
+  }
+}
+.bento-item:nth-of-type(7) {
+  grid-area: g;
+  background-color: #ffb4e6;
+  .content {
+    background-size: cover;
+  }
+}
+.bento-item:nth-of-type(8) {
+  grid-area: h;
+  background-color: #ffb4e6;
+  .content {
+    background-size: cover;
+    background-position: 50%;
+  }
+}
+.bento-item:nth-of-type(9) {
+  grid-area: i;
+  background-color: rgb(80, 120, 243);
+  .content {
+    background-size: cover;
+  }
+}
+
+.bento-item .content {
+  min-height: 250px;
+  border-radius: 12px;
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.25));
+  background-position: center top;
+}
+
+.project-popup[open] {
+  width: clamp(50%, 75vw, 90%);
+  padding: 2rem 3rem 3rem;
+  border: none;
+  border-radius: 15px;
+  background-color: rgb(33,33,33);
+  color: rgb(235, 235, 235);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+.project-popup:focus-visible {
+  outline: none;
+}
+
+.project-popup::backdrop {
+  background-color: rgba(105, 105, 105, 0.3);
+}
+
+.popup-wrapper {
+  height: 800px;
+  display: grid;
+  grid-template-columns: 2.5fr 1.5fr;
+  column-gap: 60px;
+  /* grid-template-areas:
+  "a b"
+  "a c"; */
+}
+
+.closebutton {
+  margin-left: auto;
+  display: block;
+  position: absolute;
+  top: 20px;
+  right: 16px;
+}
+
+.popup-img-container {
+  height: 100%;
+  /* grid-area: a; */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(235,235,235) rgb(33,33,33);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-img {
+  max-width: 100%;
+  margin: auto;
+  display: block;
+}
+
+.popup-text {
+  padding-block: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.popup-title {
+  margin-bottom: 1.6em;
+  /* grid-area: b; */
+  font-size: 2rem;
+}
+
+.popup-description {
+  /* grid-area: c; */
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.popup-description code {
+  padding: .15rem .3rem;
+  border-radius: .25rem;
+  color: #0d0d0d;
+  font-size: .875em;
+  font-weight: 500;
+  background-color: #ececec;
+}
+
+@media screen and (width < 960px) {
+  .bento-container {
+    grid-template-areas: 
+    "a b"
+    "a c"
+    "d e"
+    "f e";
+  }
+}
+
+@media screen  and (width < 720px) {
+  .bento-container {
+    height:fit-content;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: unset;
+  }
+
+  .bento-container .bento-item {
+    grid-area: unset;
+    aspect-ratio: 1 / 1;
+  }
+
+  .bento-item .content {
+    min-height: unset;
+  }
+}
+
+@media screen and (width < 540px) {
+  .bento-container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

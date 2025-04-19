@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import codingScreen from "../assets/image/coding.png";
+import website from "../assets/image/website.svg";
+import website2 from "../assets/image/website_2.svg";
+import browser from "../assets/image/browser.svg";
+import some from "../assets/image/some.svg";
+---
+
+<div class="frame">
+  <div class="topper">
+    <div class="left">
+      <span>11:02</span>
+    </div>
+    <div class="right">
+      <Icon name="mdi:signal" />
+      <Icon name="mdi:wifi" />
+      <Icon name="mdi:battery" />
+    </div>
+  </div>
+  <span id="type"></span>
+  <Image src={codingScreen} alt="coding screen art" width={280} id="coding" class="panel-img" />
+  <Image src={some} alt="some" width={280} id="website" class="panel-img" />
+</div>
+<script src="./PanelType.js"></script>
+<style>
+  .frame {
+    width: 350px;
+    height: 760px;
+    background-color: #232323;
+    border-radius: 44px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .frame::after {
+    content: "";
+    width: 50%;
+    height: 5px;
+
+    background-color: rgb(225, 225, 225);
+    border-radius: 15px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .topper {
+    width: 100%;
+    padding-inline: 35px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 15px;
+  }
+
+  #type {
+    padding-inline: 35px;
+    font-family: "Audiowide", sans-serif;
+    font-size: 1rem;
+    position: absolute;
+    top: 15%;
+  }
+
+  .panel-img {
+    align-self: center;
+    position: absolute;
+    top: 40%;
+  }
+
+  #coding {
+    border-radius: 10px;
+  } 
+
+</style>

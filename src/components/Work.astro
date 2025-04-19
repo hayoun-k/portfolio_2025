@@ -1,0 +1,58 @@
+---
+
+import Project from "./Project.astro";
+
+---
+<section>
+
+    <Project class="bento-container" />
+
+</section>
+
+<style>
+  .bento-container {
+  max-width: 1200px;
+  height: 900px;
+  margin-top: 2rem;
+  margin-inline: auto;
+  padding: 32px;
+  display: grid;
+  grid-template-columns:
+    28fr
+    11.3fr
+    7fr
+    18.3fr
+    28.5fr;
+  grid-template-rows: 
+    31.3fr
+    14.6fr
+    19.9fr
+    31.3fr;
+  grid-template-areas: 
+    "a b b c d"
+    "e f f f d"
+    "e f f f i"
+    "g g h h i";
+  gap: 24px;
+  /* overflow: hidden; */
+  background-color: var(--clr-lightpurple);
+  border: var(--border-sm);
+  position: relative;
+}
+
+
+
+@media screen  and (width < 400px) {
+  .bento-container {
+    height:fit-content;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: unset;
+  }
+
+  .bento-container .bento-item {
+    grid-area: unset;
+    aspect-ratio: 1 / 1;
+  }
+}
+</style>
