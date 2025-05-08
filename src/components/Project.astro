@@ -2,6 +2,13 @@
 import { Icon } from 'astro-icon/components';
 
 import { Image } from 'astro:assets';
+import NetConfig from '../assets/image/works/Network-Configure.png';
+import LandingPage from '../assets/image/works/landing-page_2.png';
+import Chart from '../assets/image/works/js-simulation-chart.png';
+import Sig from '../assets/image/works/email-signature.png';
+import ScoutPic from '../assets/image/works/photo-search-app.jpg';
+import Oreobot from '../assets/image/works/oreobot.png';
+
 const workImages = import.meta.glob("../assets/image/works/*.png", { eager: true, import: "default" });
 const workImageList = Object.values(workImages);
 
@@ -10,12 +17,12 @@ const getImage = "../src/assets/image/works/";
 
 const projects = [
     {
-      projectImage: `${getImage}Network-Configure.png`, 
+      projectImage: NetConfig, 
       projectTitle: "Network Setup Page", 
       projectDescription: "This sleek and minimal HTML project is all about helping users set up their network connections—just like configuring a router! Whether it’s client-based or server-based, users can easily manage their network details like IP addresses, servers, and gateways without any fuss. It’s a no-frills, user-friendly interface that keeps things simple!"
     },
     {
-      projectImage: `${getImage}landing-page_2.png`, 
+      projectImage: LandingPage, 
       projectTitle: "Landing Page Development", 
       projectDescription: "When it comes to developing landing pages, I’m all about building high-performing, lightning-fast pages that get results. I take your vision and turn it into a seamless, responsive experience using clean, efficient code. From integrating dynamic content to optimizing load times, I make sure every detail works perfectly across all devices. Ready for a landing page that not only looks great but works like a charm? Let’s make it happen!"
     },
@@ -25,23 +32,23 @@ const projects = [
     //   projectDescription: "When it comes to developing landing pages, I’m all about building high-performing, lightning-fast pages that get results. I take your vision and turn it into a seamless, responsive experience using clean, efficient code. From integrating dynamic content to optimizing load times, I make sure every detail works perfectly across all devices. Ready for a landing page that not only looks great but works like a charm? Let’s make it happen!"
     // },
     {
-      projectImage: `${getImage}js-simulation-chart.png`, 
+      projectImage: Chart, 
       projectTitle: "Maplestory Simulator", 
       projectDescription: "This is a custom-built web simulator designed for the Oreo Guild players on MapleStory's GMS Heroic servers (Kronos, Hyperion). It allows users to simulate Starforce enhancements by inputting equipment level, starting star, goal star, and various event settings like Starcatch, Shining StarForce events, Safeguard options, and MVP discounts. The simulator calculates meso consumption, enhancement attempts, item destruction chances, and provides detailed simulation logs, results, and statistical insights. It also features a cost table and success rate table for Starforcing based on user settings, complete with visualized simulation data using Plotly.js."
     },
 
     {
-      projectImage: `${getImage}email-signature.png`, 
+      projectImage: Sig, 
       projectTitle: "Responsive Email Signature", 
       projectDescription: "Responsive, cross-platform email signature development"
     },
     {
-      projectImage: `${getImage}photo-search-app.jpg`, 
+      projectImage: ScoutPic, 
       projectTitle: "ScoutPicFinder", 
       projectDescription: "This is a clean, responsive image search app built with Next.js. It allows users to search for photos using the Unsplash API and view results instantly. Users can open original images or download them in small, medium, or large sizes. The project features custom components like SearchBar, ImageList, and ImageShow, clean API handling with Axios, simple navigation with a logo and About page link, and custom fonts for a polished look. It’s fully responsive and credits Unsplash photographers in the footer."
     },
     {
-      projectImage: `${getImage}oreobot.png`,
+      projectImage: Oreobot,
       projectTitle: "Discord Bot Development",
       projectDescription: "A lightweight Discord bot built with JavaScript and Cloudflare Workers. It responds to slash commands like <code>/oreo</code> to send a random post from r/Oreos, and /ursus to display time windows adjusted to the user’s local time. The bot runs serverlessly, securely handles Discord interactions, and includes a custom script for registering commands globally."
 
@@ -52,7 +59,7 @@ const projects = [
     //   projectDescription: "Lorem Ipsum",
     // },
   ];
-
+    console.log(projects[1].projectImage.src);
   const { class: className, } = Astro.props;
 // const {projectImage, projectTitle, projectDescription } = Astro.props;
 ---
@@ -62,19 +69,21 @@ const projects = [
     <div class="bento-item" key={project.projectTitle || index}>
       <div class="project-wrapper">
   
-        <div class="content" style={{backgroundImage: `url(${project.projectImage})`}}>
+        <div class="content" style={{backgroundImage: `url(${project.projectImage.src})`}}>
   
         </div>
         <dialog class="project-popup dialog">
           <div class="popup-wrapper">
             <Icon name="mdi:close" class="closebutton"/>
-            <div class="popup-img-container"><img src={project.projectImage} alt={project.projectTitle} class="popup-img"></img></div>
+            <div class="popup-img-container">
+              <Image src={project.projectImage} alt={project.projectTitle} class="popup-img" />
+            </div>
             <div class="popup-text">
               <h3 class="popup-title">{project.projectTitle}</h3>
               <p class="popup-description">
                 {project.projectTitle === "Discord Bot Development" ? (
                   <>
-                    A lightweight Discord bot built with JavaScript and Cloudflare Workers.
+                    1A lightweight Discord bot built with JavaScript and Cloudflare Workers.
                     It responds to slash commands like <code>/oreo</code> to send a random post from r/Oreos,
                     and <code>/ursus</code> to display time windows adjusted to the user’s local time.
                     The bot runs serverlessly, securely handles Discord interactions, and includes a custom script for registering commands globally.
@@ -318,6 +327,8 @@ const projects = [
 
 .popup-img {
   max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   margin: auto;
   display: block;
 }
