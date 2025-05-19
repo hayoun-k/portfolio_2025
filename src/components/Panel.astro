@@ -67,6 +67,7 @@ import some from "../assets/image/some.svg";
   }
 
   .panel-img {
+    max-width: 90%;
     align-self: center;
     position: absolute;
     top: 40%;
@@ -76,4 +77,11 @@ import some from "../assets/image/some.svg";
     border-radius: 10px;
   } 
 
+@media screen and (width < 720px) {
+  .frame {
+    width: min(350px, 100%);
+    /* max-width: 350px; */
+    margin: auto;
+  }
+}
 </style>
