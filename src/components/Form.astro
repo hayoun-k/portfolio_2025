@@ -1,0 +1,133 @@
+---
+import { Icon } from "astro-icon/components";
+---
+<section class="form-container">
+  <button id="open">
+    <Icon name="mdi:comment-question-outline" />
+  </button>
+  <dialog id="dialog">
+    <button id="close">
+      <Icon name="mdi:close" />
+    </button>
+    <h2>Talk to me!</h2>
+    <form action="#" method="post">
+      <label>
+        Name:
+        <input type="text" name="name" id="name" required>
+      </label>
+      <label>
+        Email:
+        <input type="email" name="email" id="email" required>
+      </label>
+      <label >
+        Message:
+        <textarea name="message" id="message" required></textarea>
+      </label>
+      <button type="submit" id="submit">Send</button>
+    </form>
+  </dialog>
+</section>
+<script src="./FormButton.js"></script>
+<script>
+  const dialog = document.getElementById("dialog");
+  const showButton = document.getElementById("open");
+  const closeButton = document.getElementById("close");
+
+  showButton.addEventListener("click", () => {
+    dialog.showModal();
+  });
+
+  closeButton.addEventListener("click", () => {
+    dialog.close() ;
+  });
+</script>
+
+<style>
+  .form-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
+
+  button {
+    background-color: rgb(235,235,235);
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #close {
+    font-size: 24px;
+    color: rgb(235,235,235);
+    background-color: hsl(0 0% 13%);
+    border: none;
+  }
+
+  h2 {
+    margin-bottom: 0.5em;
+    line-height: 1.6;
+    color: rgb(235,235,235);
+    text-align: center;
+  }
+
+  #open {
+    margin-bottom: 24px;
+    margin-left: auto;
+    margin-right: 24px;
+    padding: 8px;
+    color: rgb(235,235,235);
+    border-radius: 50px;
+    border: 2px solid rgb(235,235,235);
+    background-color: hsl(0 0% 13%);
+  }
+
+  dialog {
+    margin: auto;
+    padding: 50px;
+    position: fixed;
+    /* inset: 0; */
+    background-color: hsl(0 0% 13%);
+  }
+
+  dialog::backdrop {
+    background-color: hsl(0 0% 13% / 0.7);
+  }
+
+  #close {
+    justify-self: end;
+  }
+
+  dialog form {
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    color: rgb(235,235,235);
+    background-color: hsl(0 0% 13%);
+  }
+
+  form label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  form :is(input, textarea) {
+    padding-block: 3px;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #message {
+    min-height: 64px;
+  }
+
+  #submit {
+    width: fit-content;
+    margin-inline: auto;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+  }
+
+</style>
