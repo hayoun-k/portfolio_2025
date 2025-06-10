@@ -9,8 +9,8 @@ import { Icon } from "astro-icon/components";
     <button id="close">
       <Icon name="mdi:close" />
     </button>
-    <h2>Talk to me!</h2>
-    <form action="#" method="post">
+    <h2>Let's talk!</h2>
+    <form action="https://contact-form-worker.hayoun-k-1102.workers.dev" method="post">
       <label>
         Name:
         <input type="text" name="name" id="name" required>
@@ -80,6 +80,14 @@ import { Icon } from "astro-icon/components";
     border-radius: 50px;
     border: 2px solid rgb(235,235,235);
     background-color: hsl(0 0% 13%);
+    transition: all ease-in-out 0.1s;
+  }
+
+  #open:hover,
+  #open:focus {
+    color: hsl(0 0% 23%);
+    border-color: hsl(0 0% 23%);
+    background-color: rgb(235,235,235);
   }
 
   dialog {
@@ -128,6 +136,13 @@ import { Icon } from "astro-icon/components";
     padding: 8px 16px;
     border: none;
     border-radius: 5px;
+    transition: all ease-in-out 0.1s;
+  }
+
+  #submit:hover,
+  #submit:focus {
+    color: rgb(235,235,235);
+    background-color: hsl(0 0% 23%);
   }
 
 </style>
