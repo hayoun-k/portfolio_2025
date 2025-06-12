@@ -23,12 +23,12 @@ import { Icon } from "astro-icon/components";
         Message:
         <textarea name="message" id="message" required></textarea>
       </label>
-      <button type="submit" id="submit" class="g-recaptcha" data-sitekey="6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX" data-callback='onSubmit' data-action='submit'>Send</button>
+      <button type="submit" id="submit" data-sitekey="6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX" data-callback='onSubmit' data-action='submit'>Send</button>
     </form>
   </dialog>
 </section>
 <script src="./FormButton.js"></script>
-<script>
+<script type="module">
   const dialog = document.getElementById("dialog");
   const showButton = document.getElementById("open");
   const closeButton = document.getElementById("close");
@@ -42,11 +42,20 @@ import { Icon } from "astro-icon/components";
   });
 </script>
 <script async src="https://www.google.com/recaptcha/api.js"></script>
-<script>
-  function onSubmit(token) {
-    document.getElementById("contactForm").submit();
-  }
-  window.onsubmit = onSubmit;
+<script type="module">
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  grecaptcha.ready(function () {
+    grecaptcha.execute('6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX', { action: 'submit' }).then(function (token) {
+      const tokenInput = document.createElement("input");
+      tokenInput.type = "hidden";
+      tokenInput.name = "g-recaptcha-response";
+      tokenInput.value = token;
+      document.getElementById("contactForm").appendChild(tokenInput);
+      document.getElementById("contactForm").submit();
+    });
+  });
+});
 </script>
 
 
