@@ -23,7 +23,7 @@ import { Icon } from "astro-icon/components";
         Message:
         <textarea name="message" id="message" required></textarea>
       </label>
-      <button type="submit" id="submit">Send</button>
+      <button type="submit" id="submit" class="g-recaptcha" data-sitekey="6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX" data-callback='onSubmit' data-action='submit'>Send</button>
     </form>
   </dialog>
 </section>
@@ -41,6 +41,8 @@ import { Icon } from "astro-icon/components";
     dialog.close() ;
   });
 </script>
+<script async src="https://www.google.com/recaptcha/api.js"></script>
+
 
 <style>
   .form-container {
