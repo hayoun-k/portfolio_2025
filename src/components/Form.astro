@@ -46,19 +46,28 @@ import { Icon } from "astro-icon/components";
 </script>
 <script async src="https://www.google.com/recaptcha/api.js?render=6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX"></script>
 <script type="module">
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-  grecaptcha.ready(function () {
-    grecaptcha.execute('6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX', { action: 'submit' }).then(function (token) {
-      const tokenInput = document.createElement("input");
-      tokenInput.type = "hidden";
-      tokenInput.name = "g-recaptcha-response";
-      tokenInput.value = token;
-      document.getElementById("contactForm").appendChild(tokenInput);
-      document.getElementById("contactForm").submit();
+  const myForm = document.getElementById("contactForm");
+  const submitBtn = document.getElementById("sendBtn");
+  myForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+    
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX', { action: 'submit' }).then(function (token) {
+        const tokenInput = document.createElement("input");
+        tokenInput.type = "hidden";
+        tokenInput.name = "g-recaptcha-response";
+        tokenInput.value = token;
+        myForm.appendChild(tokenInput);
+        myForm.submit();
+      }).catch(error => {
+          submitBtn.disabled = false;
+          submitBtn.textCentent = "Send";
+          console.error("reCAPTCHA failed", error);
+      });
     });
   });
-});
 </script>
 
 
