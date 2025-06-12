@@ -30,6 +30,7 @@ export default {
 
 		// Send email via Resend
 		const resend = new Resend(env.RESEND_API_KEY);
+		let userMessage = 'Form submitted successfully!';
 			try {
 				const { data, error } = await resend.emails.send({
 					from: 'HyK <me@hayounk.com>',
@@ -42,11 +43,33 @@ export default {
 
 
 				if (error) {
-					return new Response("Saved, but failed to email", { status: 202 });
+					userMessage = 'Saved, but failed to email';
 				}
-				return new Response("Form submitted successfully!", { status: 200 });
     } catch (e) {
-			return new Response('Internal Error', { status: 500});
+			userMessage = 'Internal Error';
 		}
+
+		const html = `
+			<!doctype html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Thank you</title>
+          <meta http-equiv="refresh" content="5;url=/" />
+          <style>
+            body { font-family: sans-serif; text-align: center; padding: 2rem; }
+            p { font-size: 1.2rem; }
+          </style>
+        </head>
+        <body>
+          <p>${userMessage}</p>
+          <p>Redirecting to the home page in 5 seconds…</p>
+        </body>
+      </html>
+		`;
+		return new Response(html, {
+			status: 200,
+			headers: { 'Content-type': 'text/html;charset=UTF-8'}
+		});
 	}
 };
