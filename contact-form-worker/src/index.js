@@ -55,7 +55,7 @@ export default {
         <head>
           <meta charset="utf-8">
           <title>Thank you</title>
-          <meta http-equiv="refresh" content="5;url=/" />
+          <meta http-equiv="refresh" content="5;url=https://hayounk.com" />
           <style>
             body { font-family: sans-serif; text-align: center; padding: 2rem; }
             p { font-size: 1.2rem; }

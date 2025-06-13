@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components";
 ---
 <section class="form-container">
-  <button id="open">
+  <button aria-label="contact button" id="open">
     <Icon name="mdi:comment-question-outline" />
   </button>
   <dialog id="dialog">
@@ -23,14 +23,36 @@ import { Icon } from "astro-icon/components";
         Message:
         <textarea name="message" id="message" required></textarea>
       </label>
-      <button type="submit" id="sendBtn" data-sitekey="6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX" data-callback='onSubmit' data-action='submit'>Send</button>
+      <div id="turnstile-container"></div>
+      <button type="submit" id="sendBtn" >Send</button>
     </form>
-    <p class="recaptcha-tos">This site is protected by reCAPTCHA and the Google
-    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-    <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
   </dialog>
 </section>
-<script src="./FormButton.js"></script>
+<script is:inline>
+  const myForm = document.getElementById("contactForm");
+const submitBtn = document.getElementById("sendBtn");
+
+function onloadTurnstileCallback() {
+  console.debug('onloadTurnstileCallback called');
+
+  turnstile.render('#turnstile-container', {
+    sitekey: '0x4AAAAAABg50lIh3WdShTJl',
+    theme: 'light',
+  })
+};
+myForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending...";
+  
+
+});
+</script>
+<script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
+  is:inline
+></script>
+<script src="./FormControl.js"></script>
 <script type="module">
   const dialog = document.getElementById("dialog");
   const showButton = document.getElementById("open");
@@ -42,31 +64,6 @@ import { Icon } from "astro-icon/components";
 
   closeButton.addEventListener("click", () => {
     dialog.close() ;
-  });
-</script>
-<script async src="https://www.google.com/recaptcha/api.js?render=6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX"></script>
-<script type="module">
-  const myForm = document.getElementById("contactForm");
-  const submitBtn = document.getElementById("sendBtn");
-  myForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending...";
-    
-    grecaptcha.ready(function () {
-      grecaptcha.execute('6LeqcV4rAAAAANcPlM6-E3-w-ZgTEbxBVxFuQoKX', { action: 'submit' }).then(function (token) {
-        const tokenInput = document.createElement("input");
-        tokenInput.type = "hidden";
-        tokenInput.name = "g-recaptcha-response";
-        tokenInput.value = token;
-        myForm.appendChild(tokenInput);
-        myForm.submit();
-      }).catch(error => {
-          submitBtn.disabled = false;
-          submitBtn.textCentent = "Send";
-          console.error("reCAPTCHA failed", error);
-      });
-    });
   });
 </script>
 

@@ -8,3 +8,4 @@ gsap.to('#open', {
   scrollTrigger: '.bento-container',
   opacity: 1
 });
+
