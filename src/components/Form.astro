@@ -28,42 +28,26 @@ import { Icon } from "astro-icon/components";
     </form>
   </dialog>
 </section>
-<script is:inline>
-  const myForm = document.getElementById("contactForm");
-const submitBtn = document.getElementById("sendBtn");
-
-function onloadTurnstileCallback() {
-  console.debug('onloadTurnstileCallback called');
-
-  turnstile.render('#turnstile-container', {
-    sitekey: '0x4AAAAAABg50lIh3WdShTJl',
-    theme: 'light',
-  })
-};
-myForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Sending...";
-  
-
-});
-</script>
 <script
   src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
   is:inline
 ></script>
 <script src="./FormControl.js"></script>
 <script type="module">
-  const dialog = document.getElementById("dialog");
-  const showButton = document.getElementById("open");
+  const contactDialog = document.getElementById("dialog");
+  const openButton = document.getElementById("open");
   const closeButton = document.getElementById("close");
+  if (!contactDialog || !openButton || !closeButton) {
+    return;
+  };
 
-  showButton.addEventListener("click", () => {
-    dialog.showModal();
+
+  openButton.addEventListener("click", () => {
+    contactDialog.showModal();
   });
 
   closeButton.addEventListener("click", () => {
-    dialog.close() ;
+    contactDialog.close();
   });
 </script>
 

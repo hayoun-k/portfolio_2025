@@ -9,3 +9,23 @@ gsap.to('#open', {
   opacity: 1
 });
 
+
+//turnstile
+const myForm = document.getElementById("contactForm");
+const submitBtn = document.getElementById("sendBtn");
+
+function onloadTurnstileCallback() {
+  console.debug('onloadTurnstileCallback called');
+
+  turnstile.render('#turnstile-container', {
+    sitekey: '0x4AAAAAABg50lIh3WdShTJl',
+    theme: 'light',
+  })
+};
+myForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending...";
+  
+
+});
