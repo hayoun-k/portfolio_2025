@@ -30,37 +30,39 @@ import { Icon } from "astro-icon/components";
 </section>
 <script src="./FormControl.js"></script>
 <script is:inline>
-
   let turnstileWidgetId = null;
 
-window.onloadTurnstileCallback = function() {
-  console.log('onloadTurnstileCallback called');
+  window.onloadTurnstileCallback = function() {
+    console.log('onloadTurnstileCallback called');
 
-  turnstileWidgetId = turnstile.render('#turnstile-container', {
-    sitekey: '0x4AAAAAABg50lIh3WdShTJl',
-    theme: 'light',
-    callback: function(token) {
-      console.log('Turnstile solved:', token);
-      // Enable submit button when turnsile is completed
-      const submitBtn = document.getElementById("sendBtn");
-      if (submitBtn) {
-        submitBtn.disabled = false;
+    turnstileWidgetId = turnstile.render('#turnstile-container', {
+      sitekey: '0x4AAAAAABg50lIh3WdShTJl',
+      theme: 'light',
+      callback: function(token) {
+        console.log('Turnstile solved:', token);
+        // Enable submit button when turnsile is completed
+        const submitBtn = document.getElementById("sendBtn");
+        if (submitBtn) {
+          submitBtn.disabled = false;
+        }
+      },
+      'error-callback': function() {
+        console.error('Turnstile error occured');
+        showFormMessage('Captcha error occurred. Please try again.', 'error');
+      },
+      'expired-callback': function() {
+        console.log('Turnstile token expired');
+        showFormMessage('Captcha expired. Please try again.', 'warning');
+        const submitBtn = document.getElementById("sendBtn");
+        if (submitBtn) {
+          submitBtn.disabled = true;
+        }
       }
-    },
-    'error-callback': function() {
-      console.error('Turnstile error occured');
-      showFormMessage('Captcha error occurred. Please try again.', 'error');
-    },
-    'expired-callback': function() {
-      console.log('Turnstile token expired');
-      showFormMessage('Captcha expired. Please try again.', 'warning');
-      const submitBtn = document.getElementById("sendBtn");
-      if (submitBtn) {
-        submitBtn.disabled = true;
-      }
-    }
-  });
-};
+    });
+
+    // Store widget ID globally so FormControl.js can access it
+    window.turnstileWidgetId = turnstileWidgetId;
+  };
 
   // console.log('🔧 Setting up Turnstile callback...');
   

@@ -40,7 +40,7 @@ if (myForm  && submitBtn) {
     const formData = new FormData(this);
 
     // Submit form
-    const reponse = await fetch(this.ariaDescription, {
+    const response = await fetch(this.action, {
       method: 'POST',
       body: formData
     });
@@ -68,7 +68,7 @@ if (myForm  && submitBtn) {
       // Handle different error status codes
       let errorMessage =  'Failed to send message. Please try again.';
 
-      if (response.status = 400) {
+      if (response.status === 400) {
         const errorData = await response.json().catch(() => ({}));
         errorMessage = errorData.error || 'Invaild form data. Please check your inputs';
       } else if (response.status === 429) {
