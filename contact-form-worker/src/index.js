@@ -1,75 +1,278 @@
 import { Resend } from 'resend';
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+
+// Verifiy Turnstile token
+async function verifyTurnstile(token, secretKey) {
+	const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		body: `secret=${secretKey}&response=${token}`
+	});
+
+	const result = await response.json();
+	return result.success;
+}
+
+// Validate form data
+function validateFormData(name, email, message) {
+	const errors = [];
+
+	if (!name || name.trim().length < 2) {
+		errors.push('Name must be at least 2 characters long');
+	}
+
+	if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+		errors.push('Please provide a valid email address');
+	}
+
+	if (!message || message.trim().length < 10) {
+		errors.push('Message must be at least 10 characters long');
+	}
+
+	//Check for potential spam patterns
+	const spamPatterns = [
+	/viagra|cialis|casino|lottery|bitcoin/i,
+	/click here|buy now|limited time/i
+	];
+
+  // const fullText = `${name} ${email} ${message}`.toLowerCase();
+  // for (const pattern of spamPatterns) {
+  //   if (pattern.test(fullText)) {
+  //     errors.push('Message appears to contain spam content');
+  //     break;
+  //   }
+  // }
+
+	return errors;
+}
+
+// Rate limiting
+async function checkRateLimit(clientIP, env) {
+  const key = `rate_limit:${clientIP}`;
+  const existing = await env.SUBMISSIONS_KV.get(key);
+  
+  if (existing) {
+    const data = JSON.parse(existing);
+    const now = Date.now();
+    const windowStart = now - (15 * 60 * 1000); // 15 minutes
+    
+    // Filter recent submissions
+    const recentSubmissions = data.submissions.filter(time => time > windowStart);
+    
+    if (recentSubmissions.length >= 3) { // Max 3 submissions per 15 minutes
+      return false;
+    }
+    
+    // Update with new submission
+    recentSubmissions.push(now);
+    await env.SUBMISSIONS_KV.put(key, JSON.stringify({
+      submissions: recentSubmissions
+    }), { expirationTtl: 900 }); // 15 minutes TTL
+    
+  } else {
+    // First submission from this IP
+    await env.SUBMISSIONS_KV.put(key, JSON.stringify({
+      submissions: [Date.now()]
+    }), { expirationTtl: 900 });
+  }
+  
+  return true;
+}
+
+// Main
 
 export default {
   async fetch(request, env) {
+		// Add CORS headers for all requests
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': 'https://hayounk.com', // Replace with your domain
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    };
+    
+    // Handle CORS preflight
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: corsHeaders });
+    }
+
     if (request.method !== 'POST') {
-    return new Response("Method Not Allowed", { status: 405, headers: { 'Allow': 'POST'} });
-  }
-
-
-		const formData = await request.formData();
-		const name = formData.get("name");
-		const email = formData.get("email");
-		const message = formData.get("message");
-
-		const timestamp = new Date().toISOString();
-		const key = `submission:${timestamp}`;
-		const submission = { name, email, message, timestamp };
-
-		// Save to KV
-		await env.SUBMISSIONS_KV.put(key, JSON.stringify(submission));
-
-		// Send email via Resend
-		const resend = new Resend(env.RESEND_API_KEY);
-		let userMessage = 'Form submitted successfully!';
-			try {
-				const { data, error } = await resend.emails.send({
-					from: 'HyK <me@hayounk.com>',
-					to: ['hayounkdev@gmail.com'],
-					subject: `New Contact Form from ${name}`,
-					html: `<p><strong>Name:</strong> ${name}</p>
-								<p><strong>Email:</strong> ${email}</p>
-								<p><strong>Message:</strong> ${message}</p>`
-					});
-
-
-				if (error) {
-					userMessage = 'Saved, but failed to email';
-				}
-    } catch (e) {
-			userMessage = 'Internal Error';
+			return new Response(JSON.stringify({ error: "Method Not Allowed" }), { 
+        status: 405, 
+        headers: { 
+          'Content-Type': 'application/json',
+          'Allow': 'POST',
+          ...corsHeaders
+        }
+      });
 		}
 
-		const html = `
-			<!doctype html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>Thank you</title>
-          <meta http-equiv="refresh" content="5;url=https://hayounk.com" />
-          <style>
-            body { font-family: sans-serif; text-align: center; padding: 2rem; }
-            p { font-size: 1.2rem; }
-          </style>
-        </head>
-        <body>
-          <p>${userMessage}</p>
-          <p>Redirecting to the home page in 5 seconds…</p>
-        </body>
-      </html>
-		`;
-		return new Response(html, {
-			status: 200,
-			headers: { 'Content-type': 'text/html;charset=UTF-8'}
-		});
+		try {
+      // Get client IP for rate limiting
+      const clientIP = request.headers.get('CF-Connecting-IP') || 
+                      request.headers.get('X-Forwarded-For') || 
+                      'unknown';
+      
+      // Check rate limit
+      const rateLimitOk = await checkRateLimit(clientIP, env);
+      if (!rateLimitOk) {
+        return new Response(JSON.stringify({ 
+          error: 'Too many submissions. Please wait 15 minutes before trying again.' 
+        }), {
+          status: 429,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      // Parse form data
+      const formData = await request.formData();
+      const name = formData.get("name")?.toString().trim();
+      const email = formData.get("email")?.toString().trim();
+      const message = formData.get("message")?.toString().trim();
+      const turnstileToken = formData.get("cf-turnstile-response")?.toString();
+
+      // Validate required fields
+      if (!name || !email || !message) {
+        return new Response(JSON.stringify({ 
+          error: 'All fields are required' 
+        }), {
+          status: 400,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      // Verify Turnstile token
+      if (!turnstileToken) {
+        return new Response(JSON.stringify({ 
+          error: 'Captcha verification required' 
+        }), {
+          status: 400,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      const turnstileValid = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY);
+      if (!turnstileValid) {
+        return new Response(JSON.stringify({ 
+          error: 'Captcha verification failed' 
+        }), {
+          status: 400,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      // Validate form data
+      const validationErrors = validateFormData(name, email, message);
+      if (validationErrors.length > 0) {
+        return new Response(JSON.stringify({ 
+          error: validationErrors.join(', ') 
+        }), {
+          status: 400,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
+      // Save submission to KV
+      const timestamp = new Date().toISOString();
+      const submissionId = `submission:${timestamp}:${Math.random().toString(36).substr(2, 9)}`;
+      const submission = { 
+        id: submissionId,
+        name, 
+        email, 
+        message, 
+        timestamp,
+        clientIP,
+        userAgent: request.headers.get('User-Agent') || 'unknown'
+      };
+
+      await env.SUBMISSIONS_KV.put(submissionId, JSON.stringify(submission));
+
+      // Send email via Resend
+      let emailSuccess = false;
+      let emailError = null;
+      
+      if (env.RESEND_API_KEY) {
+        try {
+          const resend = new Resend(env.RESEND_API_KEY);
+          const { data, error } = await resend.emails.send({
+            from: 'Contact Form <noreply@hayounk.com>', // Use your verified domain
+            to: ['hayounkdev@gmail.com'],
+            subject: `New Contact Form Submission from ${name}`,
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #333;">New Contact Form Submission</h2>
+                <div style="background: #f5f5f5; padding: 20px; border-radius: 8px;">
+                  <p><strong>Name:</strong> ${name}</p>
+                  <p><strong>Email:</strong> ${email}</p>
+                  <p><strong>Message:</strong></p>
+                  <div style="background: white; padding: 15px; border-radius: 4px; margin-top: 10px;">
+                    ${message.replace(/\n/g, '<br>')}
+                  </div>
+                </div>
+                <div style="margin-top: 20px; font-size: 12px; color: #666;">
+                  <p>Submitted: ${timestamp}</p>
+                  <p>IP: ${clientIP}</p>
+                  <p>Submission ID: ${submissionId}</p>
+                </div>
+              </div>
+            `
+          });
+
+          if (error) {
+            console.error('Resend error:', error);
+            emailError = error;
+          } else {
+            emailSuccess = true;
+            console.log('Email sent successfully:', data);
+          }
+        } catch (e) {
+          console.error('Email sending failed:', e);
+          emailError = e.message;
+        }
+      }
+
+      // Return success response
+      return new Response(JSON.stringify({
+        success: true,
+        message: emailSuccess 
+          ? 'Message sent successfully!' 
+          : 'Message received and saved, but email notification failed.',
+        submissionId
+      }), {
+        status: 200,
+        headers: { 
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+
+    } catch (error) {
+      console.error('Worker error:', error);
+      
+      return new Response(JSON.stringify({
+        error: 'Internal server error'
+      }), {
+        status: 500,
+        headers: { 
+          'Content-Type': 'application/json',
+          ...corsHeaders
+        }
+      });
+    }
 	}
 };
