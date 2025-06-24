@@ -13,11 +13,11 @@ import { Icon } from "astro-icon/components";
     <form action="https://contact-form-worker.hayoun-k-1102.workers.dev" method="post" id="contactForm">
       <label>
         Name:
-        <input type="text" name="name" id="name" required>
+        <input type="text" name="name" id="name" required autocomplete="off">
       </label>
       <label>
         Email:
-        <input type="email" name="email" id="email" required>
+        <input type="email" name="email" id="email" required autocomplete="email">
       </label>
       <label >
         Message:
@@ -30,10 +30,66 @@ import { Icon } from "astro-icon/components";
 </section>
 <script src="./FormControl.js"></script>
 <script is:inline>
-  window.onloadTurnstileCallback = function() {
-    console.log('Turnstile callback working!');
-    // Your turnstile render code here
-  }
+
+  let turnstileWidgetId = null;
+
+window.onloadTurnstileCallback = function() {
+  console.log('onloadTurnstileCallback called');
+
+  turnstileWidgetId = turnstile.render('#turnstile-container', {
+    sitekey: '0x4AAAAAABg50lIh3WdShTJl',
+    theme: 'light',
+    callback: function(token) {
+      console.log('Turnstile solved:', token);
+      // Enable submit button when turnsile is completed
+      const submitBtn = document.getElementById("sendBtn");
+      if (submitBtn) {
+        submitBtn.disabled = false;
+      }
+    },
+    'error-callback': function() {
+      console.error('Turnstile error occured');
+      showFormMessage('Captcha error occurred. Please try again.', 'error');
+    },
+    'expired-callback': function() {
+      console.log('Turnstile token expired');
+      showFormMessage('Captcha expired. Please try again.', 'warning');
+      const submitBtn = document.getElementById("sendBtn");
+      if (submitBtn) {
+        submitBtn.disabled = true;
+      }
+    }
+  });
+};
+
+  // console.log('🔧 Setting up Turnstile callback...');
+  
+  // window.onloadTurnstileCallback = function() {
+  //   console.log('🎯 Turnstile callback triggered!');
+    
+  //   const container = document.getElementById('turnstile-container');
+  //   console.log('📦 Container found:', container);
+    
+  //   if (!container) {
+  //     console.error('❌ No turnstile-container found');
+  //     return;
+  //   }
+    
+  //   if (typeof turnstile === 'undefined') {
+  //     console.error('❌ Turnstile not loaded');
+  //     return;
+  //   }
+    
+  //   console.log('✅ Rendering Turnstile...');
+    
+  //   window.turnstileWidgetId = turnstile.render('#turnstile-container', {
+  //     sitekey: '0x4AAAAAABg50lIh3WdShTJl',
+  //     theme: 'light',
+  //     callback: function(token) {
+  //       console.log('✅ Turnstile solved!');
+  //     }
+  //   });
+  // };
 </script>
 <script type="module">
   function initializeDialog() {
@@ -43,7 +99,7 @@ import { Icon } from "astro-icon/components";
     
     if (!contactDialog || !openButton || !closeButton) {
       console.warn('Dialog elements not found');
-      return; // ✅ Now it's inside a function
+      return;
     }
 
     openButton.addEventListener("click", () => {

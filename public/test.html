@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Turnstile Test</title>
+</head>
+<body>
+    <h1>Turnstile Test</h1>
+    <div id="turnstile-container"></div>
+    
+    <script>
+        window.onloadTurnstileCallback = function() {
+            console.log('Callback called!');
+            turnstile.render('#turnstile-container', {
+                sitekey: '0x4AAAAAAAVrOwQWeplm3ksi',
+                theme: 'light',
+                callback: function(token) {
+                    console.log('Solved!', token);
+                }
+            });
+        };
+    </script>
+    
+    <script 
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
+        async defer>
+    </script>
+</body>
+</html>

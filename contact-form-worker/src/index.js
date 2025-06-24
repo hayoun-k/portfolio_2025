@@ -1,17 +1,19 @@
 import { Resend } from 'resend';
 
 // Verifiy Turnstile token
-async function verifyTurnstile(token, secretKey) {
-	const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		},
-		body: `secret=${secretKey}&response=${token}`
-	});
+async function verifyTurnstile(token, secretKey, clientIP) {
+  const formData = new FormData();
+  formData.append('secret', secretKey);
+  formData.append('response', token);
+  formData.append('remoteip', clientIP);
 
-	const result = await response.json();
-	return result.success;
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body: formData
+  });
+
+  const result = await response.json();
+  return result.success;
 }
 
 // Validate form data
@@ -80,20 +82,44 @@ async function checkRateLimit(clientIP, env) {
   return true;
 }
 
+
+ // Get allowed origins from environment or default
+
+function getAllowedOrigins(env) {
+  if (env.ALLOWED_ORIGINS) {
+    return env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim());
+  }
+  return ['https://hayounk.com', 'https://www.hayounk.com'];
+}
+
+
+ // Generate CORS headers
+
+function getCorsHeaders(origin, env) {
+  const allowedOrigins = getAllowedOrigins(env);
+  const isAllowed = allowedOrigins.includes(origin);
+  
+  return {
+    'Access-Control-Allow-Origin': isAllowed ? origin : allowedOrigins[0],
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400'
+  };
+}
+
 // Main
 
 export default {
   async fetch(request, env) {
-		// Add CORS headers for all requests
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': 'https://hayounk.com', // Replace with your domain
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    };
+    const origin = request.headers.get('Origin');
+    const corsHeaders = getCorsHeaders(origin, env);
     
     // Handle CORS preflight
     if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders });
+      return new Response(null, { 
+        status: 204,
+        headers: corsHeaders 
+      });
     }
 
     if (request.method !== 'POST') {
@@ -111,6 +137,7 @@ export default {
       // Get client IP for rate limiting
       const clientIP = request.headers.get('CF-Connecting-IP') || 
                       request.headers.get('X-Forwarded-For') || 
+                      request.headers.get('X-Real-IP') ||
                       'unknown';
       
       // Check rate limit
@@ -160,6 +187,19 @@ export default {
         });
       }
 
+      if (!env.TURNSTILE_SECRET_KEY) {
+        console.error('TURNSTILE_SECRET_KEY not configured');
+        return new Response(JSON.stringify({ 
+          error: 'Server configuration error' 
+        }), {
+          status: 500,
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          }
+        });
+      }
+
       const turnstileValid = await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET_KEY);
       if (!turnstileValid) {
         return new Response(JSON.stringify({ 
@@ -197,7 +237,8 @@ export default {
         message, 
         timestamp,
         clientIP,
-        userAgent: request.headers.get('User-Agent') || 'unknown'
+        userAgent: request.headers.get('User-Agent') || 'unknown',
+        origin: origin || 'unknown'
       };
 
       await env.SUBMISSIONS_KV.put(submissionId, JSON.stringify(submission));

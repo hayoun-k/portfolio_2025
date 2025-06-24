@@ -11,37 +11,6 @@ gsap.to('#open', {
 
 
 //turnstile
-let turnstileWidgetId = null;
-
-window.onloadTurnstileCallback = function() {
-  console.debug('onloadTurnstileCallback called');
-
-  turnstileWidgetId = turnstile.render('#turnstile-container', {
-    sitekey: '0x4AAAAAABg50lIh3WdShTJl',
-    theme: 'light',
-    callback: function(token) {
-      console.log('Turnstile solved:', token);
-      // Enable submit button when turnsile is completed
-      const submitBtn = document.getElementById("sendBtn");
-      if (submitBtn) {
-        submitBtn.disabled = false;
-      }
-    },
-    'error-callback': function() {
-      console.error('Turnstile error occured');
-      showFormMessage('Captcha error occurred. Please try again.', 'error');
-    },
-    'expired-callback': function() {
-      console.log('Turnstile token expired');
-      showFormMessage('Captcha expired. Please try again.', 'warning');
-      const submitBtn = document.getElementById("sendBtn");
-      if (submitBtn) {
-        submitBtn.disabled = true;
-      }
-    }
-  });
-};
-
 
 
 const myForm = document.getElementById("contactForm");
