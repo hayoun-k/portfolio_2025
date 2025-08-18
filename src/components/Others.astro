@@ -5,10 +5,10 @@
 <section class="others">
   <div class="wrapper">
     <ul class="list">
-      <li class="list-item">Technical SEO</li>
-      <li class="list-item">Web design</li>
-      <li class="list-item">Performance Optimization</li>
-      <li class="list-item">Custom CMS</li>
+      <li class="list-item odd">Technical SEO</li>
+      <li class="list-item even">Web design</li>
+      <li class="list-item odd">Performance Optimization</li>
+      <li class="list-item even">Custom CMS</li>
     </ul>
   </div>
 </section>
@@ -30,9 +30,33 @@
     border-bottom: 1px solid rgba(135, 135, 135, 0.5);
   }
 
+  .list-item:nth-child(2n-1) {
+    transform: translateX(-500px);
+  }
+
+  .list-item:nth-child(2n) {
+    transform: translateX(500px);
+  }
+
   @media screen and (width < 900px) {
     .list-item {
       font-size: 2.3rem;
     }
   }
 </style>
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  
+  // Register the ScrollTrigger plugin
+  gsap.registerPlugin(ScrollTrigger);
+
+  let tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.others',
+    }
+  });
+
+  tl.to('.odd', {x: '0', duration: 1, ease: 'power4.inOut'})
+  .to('.even', {x: '0', duration: 1, ease: 'power4.inOut'}, '=');
+</script>
