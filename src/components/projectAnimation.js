@@ -5,6 +5,7 @@ gsap.registerPlugin(Flip);
 gsap.registerPlugin(ScrollTrigger);
 
 const items = gsap.utils.toArray(".bento-item");
+gsap.set('.bento-item', { autoAlpha: 0, y: 150 });
 
 let activeItem;
 
@@ -81,11 +82,15 @@ function hideDetails() {
   const tlTwo = gsap.timeline({
     scrollTrigger: {
       trigger: '.bento-container',
-      start: 'bottom 80%',
+      start: 'top 60%',
+      end: '+=250',
       toggleActions: 'play none none none',
       markers: true,
     }
   });
 
-    tlTwo.from('.bento-item', {
-      autoAlpha: 0, yPercent:30, stagger: 0.04, duration: 1, ease: 'power2.out'})
+  items.forEach(item => {
+    tlTwo.fromTo(item, {
+      autoAlpha: 0, y:150}, {autoAlpha: 1, y: 0, stagger: 0.04, duration: 0.1, ease: 'power2.out'})
+  })
+    
