@@ -16,7 +16,7 @@
     "@iconify-json/mdi": "^1.2.3",
     "astro": "^5.4.2",
     "astro-icon": "^1.1.5",
-    "gsap": "^3.12.7"
+    "gsap": "^3.13.0"
   },
   "devDependencies": {
     "@iconify-json/lineicons": "^1.2.4"

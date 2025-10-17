@@ -63,7 +63,7 @@ const projects = [
   const { class: className, } = Astro.props;
 // const {projectImage, projectTitle, projectDescription } = Astro.props;
 ---
-
+<div class="trigger"></div>
 <div class={className}>
   {projects.map((project, index) => (
     <div class="bento-item" key={project.projectTitle || index}>
@@ -132,6 +132,7 @@ const projects = [
     // })
 
 </script>
+<script src="./projectAnimation.js"></script>
 <style>
   .content {
     width: 100%;
@@ -202,7 +203,7 @@ const projects = [
 
 .bento-item:nth-of-type(1) {
   grid-area: a;
-  background-color: #5078f3;
+  background-color: light-dark(var(--light-blue),#5078f3);
   .content {
     background-size: cover;
   }
@@ -210,7 +211,7 @@ const projects = [
 
 .bento-item:nth-of-type(2) {
   grid-area: b;
-  background-color: #b4ffda;
+  background-color: light-dark(var(--light-green),#b4ffda);
   .content {
     background-size: cover;
     background-position-x: 50%;
@@ -218,21 +219,21 @@ const projects = [
 }
 .bento-item:nth-of-type(3) {
   grid-area: c;
-  background-color: #b4ffda;
+  background-color: light-dark(var(--light-green),#b4ffda);
   .content {
     background-size: cover;
   }
 }
 .bento-item:nth-of-type(4) {
   grid-area: d;
-  background-color: #b398ff;
+  background-color: light-dark(var(--light-red),#b398ff);
   .content {
     background-size: cover;
   }
 }
 .bento-item:nth-of-type(5) {
   grid-area: e;
-  background-color: #ffe552;
+  background-color: light-dark(var(--light-ylw),#ffe552);
   .content {
     background-size: cover;
     background-position-x: 50%;
@@ -240,7 +241,7 @@ const projects = [
 }
 .bento-item:nth-of-type(6) {
   grid-area: f;
-  background-color: #ffe552;
+  background-color: light-dark(var(--light-ylw),#ffe552);
   .content {
     background-size: cover;
   }
@@ -262,7 +263,7 @@ const projects = [
 }
 .bento-item:nth-of-type(9) {
   grid-area: i;
-  background-color: rgb(80, 120, 243);
+  background-color: light-dark(var(--light-blue),#5078f3);
   .content {
     background-size: cover;
   }
@@ -359,6 +360,20 @@ const projects = [
   font-size: .875em;
   font-weight: 500;
   background-color: #ececec;
+}
+
+@media (prefers-color-scheme: light) {
+  .bento-item {
+    border-radius: 0px;
+    box-shadow: 5px 5px black;
+    border: 3px solid black;
+  }
+
+  .bento-item .content {
+    border-radius: 0px;
+    filter: none;
+    border: 3px solid black;
+  }
 }
 
 @media screen and (width < 960px) {

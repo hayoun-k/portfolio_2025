@@ -68,6 +68,20 @@
 		font-display: swap;
 	}
 
+	:root {
+		color-scheme: light dark;
+
+		--dark-bg: hsl(0, 0%, 13%);
+		--dark-color: rgb(235, 235, 235);
+
+		--light-bg: rgb(253 249 230);
+		--light-color: rgb(21 20 24);
+		--light-red: rgb(255 101 0);
+		--light-ylw: rgb(247 254 1);
+		--light-blue: rgb(1 255 254);
+		--light-green: rgb(0 255 1);
+	}
+
 	* {
 		margin: 0;
 		padding: 0;
@@ -81,8 +95,8 @@
 	}
 
 	body {
-		background-color: hsl(0, 0%, 13%);
-		color: rgb(235, 235, 235);
+		background-color: light-dark(var(--light-bg), var(--dark-bg));
+		color: light-dark(var(--light-color), var(--dark-color));
 	}
 
 	h1,h2,h3,.heading, button {
