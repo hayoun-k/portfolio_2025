@@ -15,6 +15,9 @@ let activePopupTxt;
 let activePopupImg;
 let isAnimating = false;
 
+// Below this width the popup stacks to one column, so its grid must not be tweened.
+const narrowQuery = window.matchMedia('(width < 720px)');
+
 function isOutsidePopup(e) {
   const rect = activePopup.getBoundingClientRect();
   return (
@@ -44,7 +47,7 @@ function hideDetails() {
   Flip.from(state, {scale: true, duration: 0.4})
     .set(popup, {overflow: "hidden", width: "unset", padding: 0}, 0)
     .set(activePopupImg, {overflow: "hidden", objectFit: "fill"}, 0)
-    .to(activePopupGrid, {gridTemplateColumns: "1fr 0", gap: 0, duration: 0.4}, 0) //text shrink
+    .to(activePopupGrid, narrowQuery.matches ? {duration: 0} : {gridTemplateColumns: "1fr 0", gap: 0, duration: 0.4}, 0) //text shrink
     .to(activePopupTxt, {yPercent: -100, overflow: "hidden", duration: 0.4}, 0)
     .to(items, {opacity: 1, duration: 0.4}, 0)
     .set(popup, {visibility: "hidden"})
@@ -101,7 +104,7 @@ function openItem(item) {
     yPercent: -50, 
     visibility: "visible",
     overflow: "hidden",
-    width: "clamp(50%, 75vw, 90%)"
+    width: narrowQuery.matches ? "92vw" : "clamp(50%, 75vw, 90%)"
   })
 
 
@@ -120,7 +123,7 @@ function openItem(item) {
       }, 100);
     }
   }).to(popupTxt, { yPercent: 0, overflow: "hidden"}, 0.2)
-    .to(popupGrid, { gridTemplateColumns: "2.5fr 1.5fr"}, 0.2);
+    .to(popupGrid, narrowQuery.matches ? {duration: 0} : { gridTemplateColumns: "2.5fr 1.5fr"}, 0.2);
 
   gsap.to(items, {opacity: 0.3, duration: 0.1});
 }

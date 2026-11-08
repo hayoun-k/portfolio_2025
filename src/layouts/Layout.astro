@@ -21,8 +21,28 @@
 	<body>
 		<canvas id="noise" class="noise"></canvas>
 		<slot />
+		<!-- TEMP DEBUG: theme toggle. Remove this button and the #theme-debug script below. -->
+		<button
+			id="theme-debug"
+			type="button"
+			style="position:fixed;left:16px;bottom:16px;z-index:100;padding:8px 14px;border:1px solid currentColor;border-radius:8px;background:Canvas;color:CanvasText;font-size:0.9rem;cursor:pointer;"
+		>Theme: auto</button>
 	</body>
 </html>
+<script id="theme-debug-script">
+	// TEMP DEBUG: flips color-scheme and data-theme on <html>. data-theme drives the
+	// light-mode blocks in Hero, Panel and Project that used @media (prefers-color-scheme).
+	const themeBtn = document.getElementById('theme-debug');
+	themeBtn.addEventListener('click', () => {
+		const root = document.documentElement;
+		const current = root.style.colorScheme ||
+			(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+		const next = current === 'dark' ? 'light' : 'dark';
+		root.style.colorScheme = next;
+		root.dataset.theme = next;
+		themeBtn.textContent = `Theme: ${next}`;
+	});
+</script>
 <script type="module">
 	const canvas = document.getElementById('noise');
 	const ctx = canvas.getContext('2d');

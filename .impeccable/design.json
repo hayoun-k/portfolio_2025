@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-08T01:32:56.315734+00:00",
+  "title": "Design System: Hayoun K. Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "paper-cream": {
+        "role": "neutral",
+        "displayName": "Paper Cream",
+        "canonical": "#fdf9e6",
+        "tonalRamp": [
+          "#4c4b45",
+          "#7e7c73",
+          "#b1aea1",
+          "#d7d4c4",
+          "#fdf9e6",
+          "#fefbee",
+          "#fefcf4",
+          "#fffefa"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#151418",
+        "tonalRamp": [
+          "#060607",
+          "#0a0a0c",
+          "#0f0e11",
+          "#121114",
+          "#151418",
+          "#5b5a5d",
+          "#969597",
+          "#d0d0d1"
+        ]
+      },
+      "night": {
+        "role": "neutral",
+        "displayName": "Night",
+        "canonical": "#212121",
+        "tonalRamp": [
+          "#0a0a0a",
+          "#101010",
+          "#171717",
+          "#1c1c1c",
+          "#212121",
+          "#646464",
+          "#9b9b9b",
+          "#d3d3d3"
+        ]
+      },
+      "night-text": {
+        "role": "neutral",
+        "displayName": "Night Text",
+        "canonical": "#ebebeb",
+        "tonalRamp": [
+          "#464646",
+          "#767676",
+          "#a4a4a4",
+          "#c8c8c8",
+          "#ebebeb",
+          "#f1f1f1",
+          "#f6f6f6",
+          "#fbfbfb"
+        ]
+      },
+      "night-muted": {
+        "role": "neutral",
+        "displayName": "Night Muted",
+        "canonical": "#c3c3c3",
+        "tonalRamp": [
+          "#3a3a3a",
+          "#626262",
+          "#888888",
+          "#a6a6a6",
+          "#c3c3c3",
+          "#d5d5d5",
+          "#e4e4e4",
+          "#f3f3f3"
+        ]
+      },
+      "tile-cyan": {
+        "role": "primary",
+        "displayName": "Tile Cyan",
+        "canonical": "#01fffe",
+        "tonalRamp": [
+          "#004c4c",
+          "#00807f",
+          "#01b2b2",
+          "#01d9d8",
+          "#01fffe",
+          "#4dfffe",
+          "#8dffff",
+          "#ccffff"
+        ]
+      },
+      "tile-green": {
+        "role": "primary",
+        "displayName": "Tile Green",
+        "canonical": "#00ff01",
+        "tonalRamp": [
+          "#004c00",
+          "#008000",
+          "#00b201",
+          "#00d901",
+          "#00ff01",
+          "#4cff4d",
+          "#8cff8d",
+          "#ccffcc"
+        ]
+      },
+      "tile-orange": {
+        "role": "primary",
+        "displayName": "Tile Orange",
+        "canonical": "#ff6500",
+        "tonalRamp": [
+          "#4c1e00",
+          "#803200",
+          "#b24700",
+          "#d95600",
+          "#ff6500",
+          "#ff934c",
+          "#ffba8c",
+          "#ffe0cc"
+        ]
+      },
+      "tile-yellow": {
+        "role": "primary",
+        "displayName": "Tile Yellow",
+        "canonical": "#f7fe01",
+        "tonalRamp": [
+          "#4a4c00",
+          "#7c7f00",
+          "#adb201",
+          "#d2d801",
+          "#f7fe01",
+          "#f9fe4d",
+          "#fbff8d",
+          "#fdffcc"
+        ]
+      },
+      "tile-pink": {
+        "role": "primary",
+        "displayName": "Tile Pink",
+        "canonical": "#ffb4e6",
+        "tonalRamp": [
+          "#4c3645",
+          "#805a73",
+          "#b27ea1",
+          "#d999c4",
+          "#ffb4e6",
+          "#ffcaee",
+          "#ffddf4",
+          "#fff0fa"
+        ]
+      },
+      "night-blue": {
+        "role": "secondary",
+        "displayName": "Night Blue",
+        "canonical": "#5078f3",
+        "tonalRamp": [
+          "#182449",
+          "#283c7a",
+          "#3854aa",
+          "#4466cf",
+          "#5078f3",
+          "#84a0f7",
+          "#b0c2fa",
+          "#dce4fd"
+        ]
+      },
+      "night-mint": {
+        "role": "secondary",
+        "displayName": "Night Mint",
+        "canonical": "#b4ffda",
+        "tonalRamp": [
+          "#364c41",
+          "#5a806d",
+          "#7eb299",
+          "#99d9b9",
+          "#b4ffda",
+          "#caffe5",
+          "#ddffee",
+          "#f0fff8"
+        ]
+      },
+      "night-violet": {
+        "role": "secondary",
+        "displayName": "Night Violet",
+        "canonical": "#b398ff",
+        "tonalRamp": [
+          "#362e4c",
+          "#5a4c80",
+          "#7d6ab2",
+          "#9881d9",
+          "#b398ff",
+          "#cab7ff",
+          "#ddd1ff",
+          "#f0eaff"
+        ]
+      },
+      "night-yellow": {
+        "role": "secondary",
+        "displayName": "Night Yellow",
+        "canonical": "#ffe552",
+        "tonalRamp": [
+          "#4c4519",
+          "#807229",
+          "#b2a039",
+          "#d9c346",
+          "#ffe552",
+          "#ffed86",
+          "#fff3b1",
+          "#fffadc"
+        ]
+      },
+      "outline-black": {
+        "role": "neutral",
+        "displayName": "Outline Black",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "#000000",
+          "#000000",
+          "#000000",
+          "#000000",
+          "#000000",
+          "#4c4c4c",
+          "#8c8c8c",
+          "#cccccc"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero greeting."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Services list items, italic."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Popup project titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Popup descriptions."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Hero tagline."
+      }
+    },
+    "shadows": [
+      {
+        "name": "light-hard-offset",
+        "value": "5px 5px black (with 3px solid black border)",
+        "purpose": "Hero card, tiles, phone frame in light mode."
+      },
+      {
+        "name": "dark-image-lift",
+        "value": "drop-shadow(0 0 20px rgba(0,0,0,0.25))",
+        "purpose": "Screenshot lift on tiles in dark mode."
+      }
+    ],
+    "motion": [
+      {
+        "name": "tile-entrance",
+        "value": "0.5s power2.out, stagger 0.04s",
+        "purpose": "Bento tiles on scroll."
+      },
+      {
+        "name": "popup-open",
+        "value": "0.3s power2.inOut (Flip)",
+        "purpose": "Tile to popup."
+      },
+      {
+        "name": "popup-close",
+        "value": "0.4s (Flip)",
+        "purpose": "Popup back to tile."
+      },
+      {
+        "name": "hover-fade",
+        "value": "0.2s ease-out",
+        "purpose": "Sibling dimming and button hover."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "xs",
+        "value": "540px"
+      },
+      {
+        "name": "sm",
+        "value": "720px"
+      },
+      {
+        "name": "md",
+        "value": "960px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Project Tile (dark)",
+      "kind": "card",
+      "refersTo": "project-tile-dark",
+      "description": "Bright tile holding a project screenshot.",
+      "html": "<div class=\"ds-tile\"><div class=\"ds-tile-img\"></div></div>",
+      "css": ".ds-tile{width:260px;padding:40px;background:#5078f3;border-radius:15px}.ds-tile-img{height:160px;border-radius:12px;background:#212121;filter:drop-shadow(0 0 20px rgba(0,0,0,.25))}"
+    },
+    {
+      "name": "Project Tile (light)",
+      "kind": "card",
+      "refersTo": "project-tile-light",
+      "description": "Squared, outlined tile with hard offset shadow.",
+      "html": "<div class=\"ds-tile\"><div class=\"ds-tile-img\"></div></div>",
+      "css": ".ds-tile{width:260px;padding:40px;background:#01fffe;border:3px solid #000;box-shadow:5px 5px #000}.ds-tile-img{height:160px;background:#fdf9e6;border:3px solid #000}"
+    },
+    {
+      "name": "Project Popup",
+      "kind": "card",
+      "refersTo": "project-popup",
+      "description": "Dark detail card opened from a tile.",
+      "html": "<div class=\"ds-popup\"><h3>Network Setup Page</h3><p>A sleek, minimal setup page for network settings.</p></div>",
+      "css": ".ds-popup{width:300px;padding:2rem 3rem 3rem;background:#212121;color:#ebebeb;border-radius:15px}.ds-popup h3{font-family:Audiowide,sans-serif;font-size:2rem;margin-bottom:.8em;font-weight:400}.ds-popup p{font-family:Manrope,sans-serif;font-size:1.2rem;line-height:1.6}"
+    },
+    {
+      "name": "Close Button",
+      "kind": "custom",
+      "refersTo": "close-button",
+      "description": "44px round close control for the popup.",
+      "html": "<button class=\"ds-close\" aria-label=\"Close\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z\"/></svg></button>",
+      "css": ".ds-close{width:44px;height:44px;display:grid;place-items:center;border:none;border-radius:50%;background:#212121;color:#ebebeb;cursor:pointer;transition:background-color .2s ease-out}.ds-close:hover{background:#3a3a3a}.ds-close:focus-visible{outline:2px solid currentColor;outline-offset:2px}"
+    },
+    {
+      "name": "Service Row",
+      "kind": "custom",
+      "refersTo": "headline",
+      "description": "Ruled, italic Audiowide service line.",
+      "html": "<div class=\"ds-row\">Web design</div>",
+      "css": ".ds-row{padding-block:.33em;font-family:Audiowide,sans-serif;font-size:2rem;font-style:italic;border-bottom:1px solid rgba(135,135,135,.5)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Pocket Workbench",
+    "overview": "A developer's desk laid out in front of you: a phone mockup showing the work, a row of tool icons, and project tiles arranged like parts on a bench. Each tile is a bright block of color that opens into a dark detail card. Playful and bold in color and headline type, held in check by polished, restrained details; tactile and friendly components; never a generic template portfolio.",
+    "keyCharacteristics": [
+      "Saturated tile colors on warm cream (light) or charcoal (dark).",
+      "Two physical languages: light mode is hard-edged (squared, black outlines, offset shadows), dark mode is soft (rounded, diffuse shadow).",
+      "Audiowide for every heading and control, Manrope for everything read.",
+      "Motion is GSAP: staggered scroll-in for tiles, Flip transitions between tile and popup."
+    ],
+    "rules": [
+      {
+        "name": "The Color Lives in Tiles Rule",
+        "body": "Saturated hues fill project tiles. Text stays Ink or Night Text, never a tile color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dark Popup Rule",
+        "body": "The project popup is Night with Night Text in both themes, so screenshots sit on a calm ground.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Audiowide for anything the visitor scans or presses, Manrope for anything they read.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Language Per Theme Rule",
+        "body": "A theme uses one depth language throughout. Never put a soft blurred shadow on a light-mode tile, or a hard black outline on a dark-mode one.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do put color in the tiles and keep text Ink or Night Text.",
+      "Do use Audiowide for headings and controls, Manrope for reading text.",
+      "Do keep each theme to its own depth language (hard in light, soft in dark).",
+      "Do animate with GSAP: staggered tile entrance, Flip for tile to popup, about 0.2 to 0.4s with power2 easing.",
+      "Do keep the popup dark in both themes."
+    ],
+    "donts": [
+      "Don't let the site become a generic template portfolio: a dark hero with gradient text over an identical card grid.",
+      "Don't mix hard and soft depth within one theme.",
+      "Don't set body copy in Audiowide.",
+      "Don't put tile colors behind long text.",
+      "Don't use --clr-lightpurple or --border-sm: they are undefined.",
+      "Don't treat the temporary theme button and duplicated light-mode blocks as part of the system."
+    ]
+  }
+}
