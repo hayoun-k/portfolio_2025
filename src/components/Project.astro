@@ -100,38 +100,6 @@ const projects = [
   ))}
 </div>
 
-<script>
-  const open = document.querySelectorAll(".content");
-  const dialog = document.querySelectorAll(".dialog");
-  const closeButton = document.querySelectorAll(".closebutton");
-  // console.log(dialog);
-  // console.log(closeButton);
-  console.log(open);
-
-//   function openCheck(dialog) {
-//   if (dialog.open) {
-//     console.log("Dialog open");
-//   } else {
-//     console.log("Dialog closed");
-//   }
-// }
-
-    open.forEach((content, index) => content.addEventListener("click", () => {
-      dialog[index].showModal();
-      // dialog.showModal();
-      // openCheck(dialog);
-    }))
-
-    closeButton.forEach((button, index) => button.addEventListener("click", () => {
-      dialog[index].close();
-    }))
-
-    // closeButton.addEventListener("click", () => {
-    //   dialog.close();
-    //   openCheck(dialog);
-    // })
-
-</script>
 <script src="./projectAnimation.js"></script>
 <style>
   .content {
@@ -197,7 +165,7 @@ const projects = [
   /* overflow: hidden; */
   border-radius: 15px;
   /* filter: grayscale(0.25); */
-  transition: all ease-in-out 0.2s;
+  transition-behavior: allow-discrete;
   position: relative;
 }
 
@@ -276,8 +244,12 @@ const projects = [
   background-position: center top;
 }
 
+.project-popup {
+  transition-property: overlay, display;
+  transition-behavior: allow-discrete;
+}
+
 .project-popup[open] {
-  width: clamp(50%, 75vw, 90%);
   padding: 2rem 3rem 3rem;
   border: none;
   border-radius: 15px;
@@ -286,7 +258,12 @@ const projects = [
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
 
+@starting-style {
+  .project-popup[open] {
+    display:block;
+  }
 }
 
 .project-popup:focus-visible {
@@ -329,6 +306,7 @@ const projects = [
 .popup-img {
   max-width: 100%;
   max-height: 100%;
+  object-position: left top;
   object-fit: contain;
   margin: auto;
   display: block;
