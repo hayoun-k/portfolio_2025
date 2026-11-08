@@ -84,12 +84,19 @@ const stack = [
     background-color: light-dark(rgb(245 245 245), rgb(33, 33, 33));
   }
 
+  /* TEMP DEBUG: the light rules are written twice so the theme button can force them. */
   @media (prefers-color-scheme: light) {
-    .hero {
+    :global(:root:not([data-theme])) .hero {
       padding: 20px;
       box-shadow: 5px 5px black;
       border: 3px solid black;
     }
+  }
+
+  :global(:root[data-theme="light"]) .hero {
+    padding: 20px;
+    box-shadow: 5px 5px black;
+    border: 3px solid black;
   }
 
   @media screen and (width < 720px) {

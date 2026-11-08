@@ -77,12 +77,17 @@ import some from "../assets/image/some.svg";
     border-radius: 10px;
   } 
 
+/* TEMP DEBUG: the light rules are written twice so the theme button can force them. */
 @media (prefers-color-scheme: light) {
-  .frame {
-    border-radius: 0px;
+  :global(:root:not([data-theme])) .frame {
     border: 3px solid black;
     box-shadow: 5px 5px black;
   }
+}
+
+:global(:root[data-theme="light"]) .frame {
+  border: 3px solid black;
+  box-shadow: 5px 5px black;
 }
 
 @media screen and (width < 720px) {

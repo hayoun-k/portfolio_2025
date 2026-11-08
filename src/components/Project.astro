@@ -74,7 +74,9 @@ const projects = [
         </div>
         <dialog class="project-popup dialog">
           <div class="popup-wrapper">
-            <Icon name="mdi:close" class="closebutton"/>
+            <button type="button" class="closebutton" aria-label="Close project details">
+              <Icon name="mdi:close" />
+            </button>
             <div class="popup-img-container">
               <Image src={project.projectImage} alt={project.projectTitle} class="popup-img" />
             </div>
@@ -83,7 +85,7 @@ const projects = [
               <p class="popup-description">
                 {project.projectTitle === "Discord Bot Development" ? (
                   <>
-                    1A lightweight Discord bot built with JavaScript and Cloudflare Workers.
+                    A lightweight Discord bot built with JavaScript and Cloudflare Workers.
                     It responds to slash commands like <code>/oreo</code> to send a random post from r/Oreos,
                     and <code>/ursus</code> to display time windows adjusted to the user’s local time.
                     The bot runs serverlessly, securely handles Discord interactions, and includes a custom script for registering commands globally.
@@ -109,63 +111,36 @@ const projects = [
 
   .bento-container {
   max-width: 1200px;
-  /* height: 900px; */
   margin-top: 2rem;
   margin-inline: auto;
   padding: 32px;
   display: grid;
-  /* grid-template-columns:
-    28fr
-    11.3fr
-    7fr
-    18.3fr
-    28.5fr;
-  grid-template-rows: 
-    31.3fr
-    14.6fr
-    19.9fr
-    31.3fr; */
-  grid-template-areas: 
+  grid-template-areas:
     "a b b "
     "a c d "
     "e e f ";
   gap: 24px;
-  /* overflow: hidden; */
   background-color: var(--clr-lightpurple);
   border: var(--border-sm);
   position: relative;
 }
 
-.bento-container:has(.bento-item:hover) .bento-item:not(:hover) {
-    opacity: 0.7;
-  }
+/* Dim the siblings on the wrapper, not the item: GSAP owns the items' opacity. */
+.bento-container:has(.bento-item:hover) .bento-item:not(:hover) .project-wrapper {
+  opacity: 0.7;
+}
 
 .project-wrapper {
   width: 100%;
   height: 100%;
   position: relative;
+  transition: opacity 0.2s ease-out;
 }
-
-/* .project-wrapper::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-  background-color: rgba(55, 55, 55, 0.2);
-}
-
-.project-wrapper::after:hover {
-  background-color: none;
-} */
 
 .bento-item {
   height: 100%;
   padding: 40px;
-  /* overflow: hidden; */
   border-radius: 15px;
-  /* filter: grayscale(0.25); */
-  transition-behavior: allow-discrete;
   position: relative;
 }
 
@@ -244,11 +219,6 @@ const projects = [
   background-position: center top;
 }
 
-.project-popup {
-  transition-property: overlay, display;
-  transition-behavior: allow-discrete;
-}
-
 .project-popup[open] {
   padding: 2rem 3rem 3rem;
   border: none;
@@ -260,12 +230,6 @@ const projects = [
   transform: translate(-50%, -50%);
 }
 
-@starting-style {
-  .project-popup[open] {
-    display:block;
-  }
-}
-
 .project-popup:focus-visible {
   outline: none;
 }
@@ -275,26 +239,40 @@ const projects = [
 }
 
 .popup-wrapper {
-  height: 800px;
+  height: min(800px, calc(100dvh - 8rem));
   display: grid;
   grid-template-columns: 2.5fr 1.5fr;
   column-gap: 60px;
-  /* grid-template-areas:
-  "a b"
-  "a c"; */
 }
 
 .closebutton {
-  margin-left: auto;
-  display: block;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
   position: absolute;
-  top: 20px;
-  right: 16px;
+  top: 0.5rem;
+  right: 0.75rem;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-out;
+}
+
+.closebutton:hover {
+  background-color: rgba(235, 235, 235, 0.15);
+}
+
+.closebutton:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .popup-img-container {
   height: 100%;
-  /* grid-area: a; */
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgb(235,235,235) rgb(33,33,33);
@@ -321,12 +299,11 @@ const projects = [
 
 .popup-title {
   margin-bottom: 1.6em;
-  /* grid-area: b; */
   font-size: 2rem;
+  text-wrap: balance;
 }
 
 .popup-description {
-  /* grid-area: c; */
   font-size: 1.2rem;
   line-height: 1.6;
 }
@@ -340,18 +317,31 @@ const projects = [
   background-color: #ececec;
 }
 
+/* TEMP DEBUG: the light rules are written twice so the theme button can force them. */
 @media (prefers-color-scheme: light) {
-  .bento-item {
+  :global(:root:not([data-theme])) .bento-item {
     border-radius: 0px;
     box-shadow: 5px 5px black;
     border: 3px solid black;
   }
 
-  .bento-item .content {
+  :global(:root:not([data-theme])) .bento-item .content {
     border-radius: 0px;
     filter: none;
     border: 3px solid black;
   }
+}
+
+:global(:root[data-theme="light"]) .bento-item {
+  border-radius: 0px;
+  box-shadow: 5px 5px black;
+  border: 3px solid black;
+}
+
+:global(:root[data-theme="light"]) .bento-item .content {
+  border-radius: 0px;
+  filter: none;
+  border: 3px solid black;
 }
 
 @media screen and (width < 960px) {
@@ -379,6 +369,33 @@ const projects = [
 
   .bento-item .content {
     min-height: unset;
+  }
+
+  .project-popup[open] {
+    padding: 3.25rem 1.25rem 1.5rem;
+  }
+
+  .popup-wrapper {
+    height: auto;
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
+
+  .popup-img-container {
+    max-height: 45dvh;
+  }
+
+  .popup-text {
+    padding-block: 0;
+  }
+
+  .popup-title {
+    margin-bottom: 0.75em;
+    font-size: 1.5rem;
+  }
+
+  .popup-description {
+    font-size: 1rem;
   }
 }
 
