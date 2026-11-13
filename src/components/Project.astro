@@ -25,7 +25,15 @@ const projects = [
         {
       projectImage: CafePlaceholder,
       projectTitle: "Maple & Moss Café Demo",
-      projectDescription: "Maple & Moss is a demo website for a fictional neighborhood café. It shows how a small local business could pair a polished, easy-to-browse website with an AI chatbot. The site covers the café’s menu, hours, location, and atmosphere in a warm, cozy design that works on desktop and mobile. The embedded chatbot answers customer questions in plain language, such as “What’s vegan?”, “Are you open on Sunday?”, or “What goes well with a latte?” It answers from the café’s own menu and details, so visitors get quick, accurate answers without calling or searching through pages. I built it as a proof of concept to explore how conversational AI can improve the customer experience for small businesses. I worked on every layer, from the visual design to how the chatbot behaves."
+      projectDescription: "Maple & Moss is a demo website for a fictional neighborhood café. It shows how a small local business could pair a polished, easy-to-browse website with an AI chatbot. The site covers the café’s menu, hours, location, and atmosphere in a warm, cozy design that works on desktop and mobile. The embedded chatbot answers customer questions in plain language, such as “What’s vegan?”, “Are you open on Sunday?”, or “What goes well with a latte?” It answers from the café’s own menu and details, so visitors get quick, accurate answers without calling or searching through pages. I built it as a proof of concept to explore how conversational AI can improve the customer experience for small businesses. I worked on every layer, from the visual design to how the chatbot behaves.",
+      techStack: [
+        "Cloudflare Pages & Pages Functions",
+        "Workers AI",
+        "AI Gateway",
+        "D1",
+        "OpenAI GPT-6 Luna",
+        "Vanilla HTML/CSS/JS",
+      ],
     },
     {
       projectImage: LandingPage, 
@@ -59,7 +67,6 @@ const projects = [
       projectDescription: "A lightweight Discord bot built with JavaScript and Cloudflare Workers. It responds to slash commands like <code>/oreo</code> to send a random post from r/Oreos, and /ursus to display time windows adjusted to the user’s local time. The bot runs serverlessly, securely handles Discord interactions, and includes a custom script for registering commands globally."
 
     },
-
     // {
     //   projectImage: `${getImage}PH_coming_soon.png`,
     //   projectTitle: "Landing Page Design",
@@ -101,6 +108,16 @@ const projects = [
                   project.projectDescription
                 )}
               </p>
+              {project.techStack?.length > 0 && (
+                <div class="tech-stack">
+                  <h4 class="tech-stack-title">Tech stack</h4>
+                  <ul class="tech-stack-list">
+                    {project.techStack.map((tech) => (
+                      <li class="tech-stack-item">{tech}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </dialog>
@@ -125,7 +142,8 @@ const projects = [
   grid-template-areas:
     "a b b "
     "a c d "
-    "e e f ";
+    "e e f "
+    "g g g ";
   gap: 24px;
   background-color: var(--clr-lightpurple);
   border: var(--border-sm);
@@ -298,6 +316,10 @@ const projects = [
 }
 
 .popup-text {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(235,235,235) rgb(33,33,33);
   padding-block: 30px;
   display: flex;
   flex-direction: column;
@@ -351,13 +373,44 @@ const projects = [
   border: 3px solid black;
 }
 
+.tech-stack {
+  margin-top: 2rem;
+}
+
+.tech-stack-title {
+  margin-bottom: .75rem;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+
+.tech-stack-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.tech-stack-item {
+  padding: .3rem .75rem;
+  border-radius: 999px;
+  color: #0d0d0d;
+  font-size: .9rem;
+  font-weight: 500;
+  background-color: #b4ffda;
+}
+
 @media screen and (width < 960px) {
   .bento-container {
     grid-template-areas: 
     "a b"
     "a c"
     "d e"
-    "f e";
+    "f e"
+    "g g";
   }
 }
 
