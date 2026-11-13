@@ -21,8 +21,28 @@
 	<body>
 		<canvas id="noise" class="noise"></canvas>
 		<slot />
+		<!-- TEMP DEBUG: theme toggle. Remove this button and the #theme-debug script below. -->
+		<button
+			id="theme-debug"
+			type="button"
+			style="position:fixed;left:16px;bottom:16px;z-index:100;padding:8px 14px;border:1px solid currentColor;border-radius:8px;background:Canvas;color:CanvasText;font-size:0.9rem;cursor:pointer;"
+		>Theme: auto</button>
 	</body>
 </html>
+<script id="theme-debug-script">
+	// TEMP DEBUG: flips color-scheme and data-theme on <html>. data-theme drives the
+	// light-mode blocks in Hero, Panel and Project that used @media (prefers-color-scheme).
+	const themeBtn = document.getElementById('theme-debug');
+	themeBtn.addEventListener('click', () => {
+		const root = document.documentElement;
+		const current = root.style.colorScheme ||
+			(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+		const next = current === 'dark' ? 'light' : 'dark';
+		root.style.colorScheme = next;
+		root.dataset.theme = next;
+		themeBtn.textContent = `Theme: ${next}`;
+	});
+</script>
 <script type="module">
 	const canvas = document.getElementById('noise');
 	const ctx = canvas.getContext('2d');
@@ -68,6 +88,20 @@
 		font-display: swap;
 	}
 
+	:root {
+		color-scheme: light dark;
+
+		--dark-bg: hsl(0, 0%, 13%);
+		--dark-color: rgb(235, 235, 235);
+
+		--light-bg: rgb(253 249 230);
+		--light-color: rgb(21 20 24);
+		--light-red: rgb(255 101 0);
+		--light-ylw: rgb(247 254 1);
+		--light-blue: rgb(1 255 254);
+		--light-green: rgb(0 255 1);
+	}
+
 	* {
 		margin: 0;
 		padding: 0;
@@ -81,8 +115,8 @@
 	}
 
 	body {
-		background-color: hsl(0, 0%, 13%);
-		color: rgb(235, 235, 235);
+		background-color: light-dark(var(--light-bg), var(--dark-bg));
+		color: light-dark(var(--light-color), var(--dark-color));
 	}
 
 	h1,h2,h3,.heading, button {

@@ -28,7 +28,7 @@ import some from "../assets/image/some.svg";
   .frame {
     width: 350px;
     height: 760px;
-    background-color: #232323;
+    background-color: light-dark(white,#232323);
     border-radius: 44px;
     display: flex;
     flex-direction: column;
@@ -76,6 +76,19 @@ import some from "../assets/image/some.svg";
   #coding {
     border-radius: 10px;
   } 
+
+/* TEMP DEBUG: the light rules are written twice so the theme button can force them. */
+@media (prefers-color-scheme: light) {
+  :global(:root:not([data-theme])) .frame {
+    border: 3px solid black;
+    box-shadow: 5px 5px black;
+  }
+}
+
+:global(:root[data-theme="light"]) .frame {
+  border: 3px solid black;
+  box-shadow: 5px 5px black;
+}
 
 @media screen and (width < 720px) {
   .frame {
